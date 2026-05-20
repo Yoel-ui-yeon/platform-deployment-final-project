@@ -6,11 +6,10 @@ services:
     container_name: symfony-php
     restart: unless-stopped
     environment:
-      # Use prod in Docker (host .env APP_ENV=dev is for local Symfony CLI only)
       APP_ENV: prod
       APP_DEBUG: 0
-      APP_SECRET: ${APP_SECRET:-change_me_in_production}
-      DATABASE_URL: mysql://${MYSQL_USER:-app}:${MYSQL_PASSWORD:-appsecret}@mysql:3306/${MYSQL_DATABASE:-app}?serverVersion=8.0.32&charset=utf8mb4
+      APP_SECRET: ${APP_SECRET}
+      DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}?serverVersion=8.0.32&charset=utf8mb4
     volumes:
       - .:/var/www/html
       - php_vendor:/var/www/html/vendor
@@ -40,10 +39,10 @@ services:
     container_name: symfony-mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-app}
-      MYSQL_USER: ${MYSQL_USER:-app}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-appsecret}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "${MYSQL_PORT:-3310}:3306"
     volumes:
