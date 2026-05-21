@@ -59,4 +59,4 @@ fi
 mkdir -p var/cache var/log
 chown -R www-data:www-data var 2>/dev/null || true
 
-exec docker-php-entrypoint "$@"
+exec docker-php-entrypoint php -S 0.0.0.0:8080 -t public/
