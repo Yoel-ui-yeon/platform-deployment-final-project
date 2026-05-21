@@ -13,6 +13,7 @@ services:
     volumes:
       - .:/var/www/html
       - php_vendor:/var/www/html/vendor
+    command: ["php-fpm"]
     depends_on:
       mysql:
         condition: service_healthy

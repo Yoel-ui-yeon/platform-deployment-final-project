@@ -1,2 +1,7 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+
 [deploy]
-startCommand = "php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration; echo 'migrations done'; php -S 0.0.0.0:8080 -t public/"
+healthcheckPath = "/"
+restartPolicyType = "ON_FAILURE"

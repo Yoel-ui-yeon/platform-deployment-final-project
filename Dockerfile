@@ -41,5 +41,8 @@ RUN chmod +x /usr/local/bin/entrypoint.sh \
     && mkdir -p var/cache var/log \
     && chown -R www-data:www-data var
 
+EXPOSE 8080
+
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["php-fpm"]
+# No CMD: Railway runs built-in server on $PORT.
+# Local docker-compose sets: command: ["php-fpm"]
