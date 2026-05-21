@@ -1,5 +1,4 @@
 #!/bin/sh
-set -e
 
 cd /var/www/html
 
@@ -33,30 +32,15 @@ if [ -n "$DATABASE_URL" ]; then
     done
 fi
 
-if [ ! -d vendor ]; then
-    if [ "$APP_ENV" = "prod" ]; then
-        composer install --no-dev --prefer-dist --no-progress
-    else
-        composer install --prefer-dist --no-progress
-    fi
-    composer dump-autoload --optimize
-fi
-
-php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
-
-if [ "$APP_ENV" = "prod" ]; then
-    php bin/console cache:clear --no-warmup
-    php bin/console cache:warmup
-    php bin/console assets:install public --no-interaction
-    if php bin/console list 2>/dev/null | grep -q 'asset-mapper:compile'; then
-        php bin/console asset-mapper:compile --no-interaction
-    fi
-    if php bin/console list 2>/dev/null | grep -q 'importmap:install'; then
-        php bin/console importmap:install --no-interaction
-    fi
-fi
+php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration || true
+php bin/console cache:clear --no-warmup || true
+php bin/console cache:warmup || true
+php bin/console assets:install public --no-interaction || true
+php bin/console asset-mapper:compile --no-interaction || true
+php bin/console importmap:install --no-interaction || true
 
 mkdir -p var/cache var/log
 chown -R www-data:www-data var 2>/dev/null || true
 
-exec docker-php-entrypoint php -S 0.0.0.0:8080 -t public/
+echo "Starting PHP server..."
+exec php -S 0.0.0.0:8080 -t public/
