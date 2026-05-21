@@ -1,2 +1,2 @@
 [deploy]
-startCommand = "php bin/console doctrine:database:create --if-not-exists && php bin/console doctrine:migrations:migrate --no-interaction && php -S 0.0.0.0:8080 -t public/"
+startCommand = "php bin/console doctrine:database:create --if-not-exists && php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration || true && php -S 0.0.0.0:8080 -t public/"
